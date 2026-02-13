@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Total Judul</title>
+</head>
+<body>
+
+<h2>Total Judul: <span id="total"></span></h2>
+
+<script>
+const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTkbyjy0mm-DEBQ4dTqrB1MHz2aPQv5Gz-GISsuvf1_yQwA4D6xI_AxUZj55xBNg8qoUtbfc_vfHB5-/pub?output=csv";
+
+fetch(url)
+    .then(response => response.text())
+    .then(data => {
+        const rows = data.split("\n");
+        
+        const totalJudul = rows.length - 1;
+        
+        document.getElementById("total").textContent = totalJudul;
+    })
+    .catch(error => console.error(error));
+</script>
+
+</body>
+</html>
