@@ -8,122 +8,176 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen font-sans antialiased">
-    
+<body class=" min-h-screen font-sans antialiased">
+
     <div class="container mx-auto px-4 py-8 md:py-16">
-        
         <div class="max-w-4xl mx-auto">
-            
-            <button onclick="window.history.back()" class="inline-flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors duration-200 group">
+
+            <!-- Tombol Kembali -->
+            <button onclick="window.history.back()" class="inline-flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors duration-200 group mb-6">
                 <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform duration-200"></i>
                 <span class="font-medium">Kembali</span>
             </button>
 
-            <div class="p-6 md:p-8">
-                <div class="text-center">
-                    <h1 class="text-2xl md:text-3xl font-bold text-slate-900 leading-tight">
-                        Sistem Pakar Diagnosa Penyakit Pada Tanaman Jeruk Siam Banjar Menggunakan Metode Fuzzy Mamdani
-                    </h1>
-                </div>
+            <!-- Judul -->
+            <div class="p-6 md:p-8 mb-6">
+                <h1 id="detailJudul" class="text-2xl md:text-3xl font-bold text-slate-900 leading-tight text-center"></h1>
             </div>
 
-            <div class="p-6 md:p-8">
+            <!-- Info -->
+            <div class=" p-6 md:p-8 mb-6">
                 <div class="flex flex-wrap justify-center gap-6 md:gap-12 text-center">
-                    
+
                     <div class="flex flex-col items-center gap-2">
                         <i class="fa-solid fa-user text-3xl text-slate-700"></i>
-                        <p class="text-base font-semibold text-slate-900">Ibnu Rofik</p>
+                        <p id="detailPenulis" class="text-base font-semibold text-slate-900"></p>
                     </div>
 
                     <div class="flex flex-col items-center gap-2">
                         <i class="fa-solid fa-calendar-days text-3xl text-slate-700"></i>
-                        <p class="text-base font-semibold text-slate-900">2025</p>
+                        <p id="detailTahun" class="text-base font-semibold text-slate-900"></p>
                     </div>
 
                     <div class="flex flex-col items-center gap-2">
                         <i class="fa-solid fa-building-columns text-3xl text-slate-700"></i>
-                        <p class="text-base font-semibold text-slate-900">TI</p>
+                        <p id="detailJurusan" class="text-base font-semibold text-slate-900"></p>
                     </div>
 
                     <div class="flex flex-col items-center gap-2">
                         <i class="fa-solid fa-address-card text-3xl text-slate-700"></i>
-                        <p class="text-base font-semibold text-slate-900">C2255201109</p>
+                        <p id="detailNIM" class="text-base font-semibold text-slate-900"></p>
                     </div>
 
                     <div class="flex flex-col items-center gap-2">
                         <i class="fa-solid fa-link text-3xl text-slate-700"></i>
-                        <a href="#" class="text-base font-semibold text-blue-600 hover:text-blue-700 underline transition-colors">Link</a>
+                        <a id="detailFile" href="#" class="text-base font-semibold text-blue-600 hover:text-blue-700 underline transition-colors">Link</a>
                     </div>
 
                 </div>
             </div>
 
-            <div class="p-6 md:p-8">
-                <div class="flex flex-wrap justify-center gap-2">
-                    <span class="px-4 py-2 border-2 text-slate-700 rounded-lg text-sm font-medium">SISTEM</span>
-                    <span class="px-4 py-2 border-2 text-slate-700 rounded-lg text-sm font-medium">PAKAR</span>
-                    <span class="px-4 py-2 border-2 text-slate-700 rounded-lg text-sm font-medium">METODE</span>
-                    <span class="px-4 py-2 border-2 text-slate-700 rounded-lg text-sm font-medium">PENYAKIT</span>
-                    <span class="px-4 py-2 border-2 text-slate-700 rounded-lg text-sm font-medium">FUZZY</span>
-                </div>
+            <div class=" p-6 md:p-8 mb-6">
+                <div id="detailTokenSama" class="flex flex-wrap justify-center gap-2"></div>
             </div>
 
-                <div class="text-center space-y-6">
-                    
-                    <div class="relative inline-block">
-                        <svg class="w-48 h-48 md:w-56 md:h-56" viewBox="0 0 200 200">
-                            <circle cx="100" cy="100" r="85" fill="none" stroke="#FED7AA" stroke-width="12"/>
-                            <circle 
-                                cx="100" 
-                                cy="100" 
-                                r="85" 
-                                fill="none" 
-                                stroke="#F97316" 
-                                stroke-width="12"
-                                stroke-linecap="round"
-                                stroke-dasharray="534.07"
-                                stroke-dashoffset="287"
-                                transform="rotate(-90 100 100)"
-                                class="transition-all duration-1000 ease-out"
-                            />
-                        </svg>
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="text-center">
-                                <p class="text-3xl md:text-5xl font-extrabold text-orange-600">46,3%</p>
-                            </div>
-                        </div>
+            <!-- Gauge -->
+            <div class=" p-6 md:p-8  mb-6 text-center">
+
+                <div class="relative flex justify-center mb-6">
+                    <svg class="w-48 h-48 md:w-56 md:h-56" viewBox="0 0 200 200">
+                        <circle cx="100" cy="100" r="85" fill="none" stroke="#e2e8f0" stroke-width="12"/>
+                        <circle 
+                            id="gaugeCircle"
+                            cx="100" cy="100" r="85"
+                            fill="none"
+                            stroke="#3b82f6"
+                            stroke-width="12"
+                            stroke-linecap="round"
+                            stroke-dasharray="534.07"
+                            stroke-dashoffset="534.07"
+                            transform="rotate(-90 100 100)"
+                            style="transition: stroke-dashoffset 1s ease-out, stroke 0.5s ease"
+                        />
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <p id="gaugeText" class=" text-xl md:text-3xl font-extrabold"></p>
                     </div>
                 </div>
 
-                <div class=" flex flex-col max-w-full w-1/2 justify-center text-center mx-auto gap-y-4">
-
-                <div class="gap-2 px-6 py-3 rounded-xl shadow-lg bg-orange-500">
-                        <i class="fa-solid fa-circle-info text-white text-xl"></i>
-                        <span class="font-semibold text-white">Tingkat Kemiripan Sedang</span>
+                <!-- Badge Status -->
+                <div id="statusBadge" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl shadow-lg mb-4">
+                    <i class="fa-solid fa-circle-info text-white text-xl"></i>
+                    <span id="statusText" class="font-semibold text-white"></span>
                 </div>
 
-                    <p class="text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                        Judul memiliki kemiripan <span class="font-bold text-orange-600">46,3%</span> dengan database. Disarankan untuk melakukan revisi pada beberapa kata kunci agar lebih unik.
-                    </p>
-                </div>
+                <p id="statusDesc" class="text-slate-600 max-w-2xl mx-auto leading-relaxed mt-2"></p>
+
+            </div>
 
         </div>
     </div>
 
+<script>
+    const params = new URLSearchParams(window.location.search);
+
+    const judul    = params.get("judul")    || "-";
+    const penulis  = params.get("penulis")  || "-";
+    const nim      = params.get("nim")      || "-";
+    const tahun    = params.get("tahun")    || "-";
+    const jurusan  = params.get("jurusan")  || "-";
+    const file     = params.get("file")     || "#";
+    const persen   = parseFloat(params.get("persen") || "0");
+    const tokens   = params.get("tokens")  ? params.get("tokens").split(",") : [];
+    const tokenInput = params.get("tokenInput") ? params.get("tokenInput").split(",") : [];
+
+    // Isi konten
+    document.getElementById("detailJudul").textContent   = judul;
+    document.getElementById("detailPenulis").textContent = penulis;
+    document.getElementById("detailTahun").textContent   = tahun;
+    document.getElementById("detailJurusan").textContent = jurusan;
+    document.getElementById("detailNIM").textContent     = nim;
+    document.getElementById("detailFile").href           = file;
+
+    // Token badges
+// Cari kata yang sama
+const tokenSama = tokens.filter(t => tokenInput.includes(t));
+
+const elSama = document.getElementById("detailTokenSama");
+
+if (tokenSama.length === 0) {
+    elSama.innerHTML = `<p class="text-sm text-slate-400">Tidak ada kata yang sama</p>`;
+} else {
+    elSama.innerHTML = tokenSama.map(t =>
+        `<span class="px-3 py-1 border-2 border-blue-300 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium">${t}</span>`
+    ).join("");
+}
+
+    // Gauge + status
+    const circle  = document.getElementById("gaugeCircle");
+    const circumference = 534.07;
+
+    let warna, bgBadge, statusText, statusDesc;
+
+    if (persen >= 71) {
+        warna     = "#ef4444"; // merah
+        bgBadge   = "bg-red-500";
+        statusText = "Tingkat Kemiripan Tinggi";
+        statusDesc = `Judul memiliki kemiripan <strong class="text-red-600">${persen}%</strong> dengan database. Sangat disarankan untuk mengubah judul agar lebih unik.`;
+    } else if (persen >= 31) {
+        warna     = "#f97316"; // orange
+        bgBadge   = "bg-orange-500";
+        statusText = "Tingkat Kemiripan Sedang";
+        statusDesc = `Judul memiliki kemiripan <strong class="text-orange-600">${persen}%</strong> dengan database. Disarankan revisi pada beberapa kata kunci agar lebih unik.`;
+    } else {
+        warna     = "#22c55e"; // hijau
+        bgBadge   = "bg-emerald-500";
+        statusText = "Tingkat Kemiripan Rendah";
+        statusDesc = `Judul memiliki kemiripan <strong class="text-emerald-600">${persen}%</strong> dengan database. Judul cukup unik dan orisinal.`;
+    }
+
+    // Animasi gauge
+    setTimeout(() => {
+        const offset = circumference - (persen / 100) * circumference;
+        circle.style.strokeDashoffset = offset;
+        circle.style.stroke = warna;
+    }, 100);
+
+    document.getElementById("gaugeText").textContent   = `${persen}%`;
+    document.getElementById("gaugeText").style.color   = warna;
+    document.getElementById("statusBadge").className  += ` ${bgBadge}`;
+    document.getElementById("statusText").textContent  = statusText;
+    document.getElementById("statusDesc").innerHTML    = statusDesc;
+</script>
 </body>
 </html>

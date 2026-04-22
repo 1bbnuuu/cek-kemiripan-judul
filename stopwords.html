@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Filter Kata dari Google Sheets</title>
+<style>
+body{
+    font-family: Arial;
+    max-width:700px;
+    margin:50px auto;
+}
+
+textarea{
+    width:100%;
+    height:100px;
+    padding:10px;
+}
+
+button{
+    margin-top:10px;
+    padding:10px 20px;
+}
+
+#hasil{
+    margin-top:20px;
+    padding:10px;
+    background:#f3f3f3;
+}
+</style>
+</head>
+<body>
+
+<h2>Filter Kata</h2>
+
+<textarea id="inputKalimat" placeholder="Masukkan kalimat..."></textarea>
+<br>
+<button onclick="proses()">Proses</button>
+
+<h3>Hasil:</h3>
+<div id="hasil"></div>
+
+<script>
+
+let stopwords = []
+
+async function loadStopwords(){
+
+const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vResmTfw9LqtXMTSbJRTHFwaFpIRdr5tndDI3tdX4kfopvV8rNTGexZW2U4ZKOpgat8hWKtWiHMlrz2/pub?gid=1025163677&single=true&output=csv"
+
+const res = await fetch(url)
+const text = await res.text()
+
+stopwords = text
+.split("\n")
+.map(k => k.trim().toLowerCase())
+.filter(k => k != "")
+
+console.log("Stopwords:", stopwords)
+
+}
+
+function proses(){
+
+const input = document.getElementById("inputKalimat").value
+
+const words = input
+.toLowerCase()
+.split(/\s+/)
+
+const filtered = words.filter(w => !stopwords.includes(w))
+
+document.getElementById("hasil").innerText = filtered.join(" ")
+
+}
+
+loadStopwords()
+
+</script>
+
+</body>
+</html>

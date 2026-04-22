@@ -1,0 +1,182 @@
+import requests
+from bs4 import BeautifulSoup
+import csv
+import time
+from urllib.parse import urljoin
+
+BASE_URL = "https://perpus.stmikplk.ac.id"
+
+URLS_TO_SCRAPE = [
+    f"{BASE_URL}/perpus/main/tipeItem/21?max=10&offset=0", #Tugas Akhir Sistem Informasi
+    f"{BASE_URL}/perpus/main/tipeItem/24?max=10&offset=0", #Tugas Akhir Teknik Informatika
+    f"{BASE_URL}/perpus/main/tipeItem/4?max=10&offset=0", #Skripsi Sistem Informasi
+    f"{BASE_URL}/perpus/main/tipeItem/17?max=10&offset=0", #Skripsi Teknik Informatika
+]
+
+def scrape_page(url):
+    print(f"\nScraping: {url}")
+    
+    try:
+        response = requests.get(url, timeout=10)
+        response.encoding = 'utf-8'
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        items = []
+        columns = soup.find_all('div', class_='column nine last')
+        
+        for col in columns:
+            h2 = col.find('h2')
+            if not h2:
+                continue
+            
+            link_tag = h2.find('a', href=True)
+            if not link_tag:
+                continue
+            
+            item_link = urljoin(BASE_URL, link_tag['href'])
+            
+            nim = ''
+            h5 = col.find('h5', class_='meta-post')
+            if h5:
+                next_p = h5.find_next_sibling('p')
+                if next_p:
+                    for content in next_p.contents:
+                        if isinstance(content, str):
+                            nim = content.strip()
+                            break
+
+            ul = col.find('ul', style=lambda x: x and 'font-weight: bold' in x)
+            
+            if not ul:
+                continue
+            
+            judul = ''
+            pengarang = ''
+            tahun = ''
+            
+            for li in ul.find_all('li'):
+                text = li.get_text(strip=True)
+                
+                if text.startswith('Judul :'):
+                    link = li.find('a')
+                    judul = link.get_text(strip=True) if link else ''
+                
+                elif text.startswith('Pengarang :'):
+                    authors = [a.get_text(strip=True) for a in li.find_all('a')]
+                    pengarang = ', '.join(authors) if authors else ''
+                
+                elif text.startswith('Tahun :'):
+                    link = li.find('a')
+                    tahun = link.get_text(strip=True) if link else ''
+            
+            if judul:
+                items.append({
+                    'judul': judul,
+                    'nim': nim,
+                    'tahun': tahun,
+                    'penulis': pengarang,
+                    'file': item_link
+                })
+                print(f"  {judul[:50]}...")
+        
+        pagination = soup.find('div', class_='pagination')
+        next_url = None
+        if pagination:
+            next_link = pagination.find('a', class_='nextLink')
+            if next_link and next_link.get('href'):
+                next_url = urljoin(BASE_URL, next_link['href'])
+        
+        return items, next_url
+    
+    except Exception as e:
+        print(f"  Error: {e}")
+        return [], None
+
+def load_existing_urls(filename='databasejudul.csv'):
+    import os
+    if not os.path.exists(filename):
+        return set()
+    
+    existing_urls = set()
+    with open(filename, 'r', encoding='utf-8-sig') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            existing_urls.add(row['file'])
+    
+    return existing_urls
+
+def scrape_all(start_url, max_pages=None):
+    seen_urls = load_existing_urls('databasejudul.csv')
+    
+    all_data = []
+    current_url = start_url
+    page = 0
+    
+    while current_url:
+        page += 1
+        print(f"\nHalaman {page}")
+        
+        items, next_url = scrape_page(current_url)
+        
+        for item in items:
+            if item['file'] not in seen_urls:
+                all_data.append(item)
+                seen_urls.add(item['file'])
+            else:
+                print(f"  [SKIP] Duplikat: {item['judul'][:40]}...")
+        
+        if max_pages and page >= max_pages:
+            print(f"\nBatas {max_pages} halaman selesai")
+            break
+        
+        if not next_url:
+            print("\nTidak ada halaman berikutnya")
+            break
+        
+        current_url = next_url
+        time.sleep(1)
+    
+    return all_data
+
+def save_to_csv(data, filename='databasejudul.csv'):
+    if not data:
+        print("Tidak ada data untuk disimpan")
+        return
+    
+    import os
+    file_exists = os.path.exists(filename)
+    
+    with open(filename, 'a', newline='', encoding='utf-8-sig') as f:
+        writer = csv.DictWriter(f, fieldnames=['judul', 'nim', 'tahun', 'penulis', 'file'])
+        
+        if not file_exists:
+            writer.writeheader()
+        
+        writer.writerows(data)
+    
+    print(f"\nData disimpan ke {filename}")
+
+if __name__ == "__main__":
+    existing_count = len(load_existing_urls('databasejudul.csv'))
+    print(f"Data existing di CSV: {existing_count} record\n")
+    
+    total_data = 0
+    
+    for idx, url in enumerate(URLS_TO_SCRAPE, 1):
+        print(f"URL {idx}/{len(URLS_TO_SCRAPE)}")
+        
+        data = scrape_all(url)
+        
+        if data:
+            save_to_csv(data)
+            total_data += len(data)
+            print(f"Berhasil {len(data)} data baru dari URL {idx}")
+        else:
+            print(f"Tidak ada data baru dari URL {idx}")
+        
+        if idx < len(URLS_TO_SCRAPE):
+            time.sleep(2)
+    
+    print(f"SELESAI")
+    print(f"Total data baru: {total_data} record")
