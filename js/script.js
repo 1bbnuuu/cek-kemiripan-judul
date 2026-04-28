@@ -185,7 +185,7 @@ function tampilkanHasil(hasil, tokenInput) {
 
     let html = `
         <h3 class="font-bold text-lg mb-2">Hasil Kemiripan</h3>
-        <p class="text-sm text-slate-500 mb-1">Token input: <span class="text-blue-600">${tokenInput.join(", ")}</span></p>
+        <!--<p class="text-sm text-slate-500 mb-1">Token input: <span class="text-blue-600">${tokenInput.join(", ")}</span></p>-->
         <p class="text-sm text-slate-500 mb-4">Kemiripan tertinggi: <span class="font-bold text-emerald-600">${persenTertinggi}%</span></p>
     `;
 
@@ -196,7 +196,6 @@ function tampilkanHasil(hasil, tokenInput) {
         if (persen >= 71) badgeClass = "bg-red-100 text-red-700";
         else if (persen >= 31) badgeClass = "bg-yellow-100 text-yellow-700";
 
-        // Encode data ke URL
         const params = new URLSearchParams({
             judul: row.Judul,
             penulis: row.Penulis || "-",
@@ -213,7 +212,7 @@ function tampilkanHasil(hasil, tokenInput) {
             <a href="detail.html?${params.toString()}" class="block border-b py-3 flex items-start justify-between gap-4 hover:bg-slate-50 rounded-lg px-2 transition-colors cursor-pointer">
                 <div class="flex-1">
                     <div class="font-semibold text-slate-800">${row.Judul}</div>
-                    <div class="text-xs text-slate-400 mt-1">${row.Jurusan} · ${row.Tahun}</div>
+                    <!--<div class="text-xs text-slate-400 mt-1">${row.Jurusan} · ${row.Tahun}</div>-->
                     <div class="text-xs text-slate-400 mt-1">Token: ${row.tokens.join(", ")}</div>
                 </div>
                 <div class="flex-shrink-0 flex items-center gap-2">

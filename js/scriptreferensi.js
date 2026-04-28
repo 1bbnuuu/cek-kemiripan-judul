@@ -1,64 +1,3 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cari Referensi</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-  </style>
-</head>
-
-<body class="bg-slate-50 min-h-screen">
-
-  <div class="max-w-5xl mx-auto px-4 py-16">
-
-    <!-- HEADER -->
-    <div class="text-center mb-12">
-      <h1 class="text-4xl font-bold text-slate-900 mb-2">Cari Referensi</h1>
-      <p class="text-slate-500">Temukan judul tugas akhir dengan cepat & akurat</p>
-    </div>
-
-    <!-- FILTER CARD -->
-    <div class="bg-white rounded-2xl shadow p-6 mb-8">
-      <div class="grid md:grid-cols-3 gap-4">
-
-        <input id="filterTahun" placeholder="Tahun (2024)"
-          class="px-4 py-3 bg-slate-100 rounded-lg focus:ring-2 focus:ring-slate-400 outline-none" />
-
-        <select id="filterJurusan"
-          class="px-4 py-3 bg-slate-100 rounded-lg focus:ring-2 focus:ring-slate-400 outline-none">
-          <option value="">Semua Jurusan</option>
-        </select>
-
-        <input id="filterNama" placeholder="Nama Penulis"
-          class="px-4 py-3 bg-slate-100 rounded-lg focus:ring-2 focus:ring-slate-400 outline-none" />
-
-      </div>
-
-      <div class="text-center mt-6">
-        <button onclick="cariReferensi()"
-          class="px-8 py-3 bg-slate-900 text-white rounded-xl font-semibold hover:bg-slate-700 transition">
-          <i class="fa-solid fa-magnifying-glass mr-2"></i>Cari Referensi
-        </button>
-      </div>
-    </div>
-
-    <!-- RESULT INFO -->
-    <div id="infoHasil" class="text-sm text-slate-500 mb-4"></div>
-
-    <!-- RESULT LIST -->
-    <div id="hasilCari" class="grid gap-4"></div>
-
-  </div>
-
-<script>
 const BASE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNBbQLWjVBQIzXXxWt-VyxwgiyYiYCqv3WOx06jPeOQ8xrIWeAbHhfeADNV4SRDg/pub?output=csv";
 const getSheetURL = (gid) => `${BASE_URL}&gid=${gid}`;
 const dataURL = getSheetURL(1749465922);
@@ -101,7 +40,7 @@ function cariReferensi() {
     return cocokTahun && cocokJurusan && cocokNama;
   });
 
-  hasil = hasil.slice(0, 20); // limit
+  hasil = hasil.slice(0, 20);
 
   tampilkanHasil(hasil);
 }
@@ -155,7 +94,3 @@ function tampilkanHasil(hasil) {
 }
 
 loadData();
-</script>
-
-</body>
-</html>
