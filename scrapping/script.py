@@ -5,14 +5,16 @@ from urllib.parse import urljoin
 import os
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, Alignment
+import sys
 
 BASE_URL = "https://perpus.stmikplk.ac.id"
 
 URLS_TO_SCRAPE = [
-    (f"{BASE_URL}/perpus/main/tipeItem/21?max=10&offset=0", "TI"),  #TI
     (f"{BASE_URL}/perpus/main/tipeItem/24?max=10&offset=0", "TI"),  #TI
+    (f"{BASE_URL}/perpus/main/tipeItem/17?max=10&offset=0", "TI"),  #TI
+    (f"{BASE_URL}/perpus/main/tipeItem/21?max=10&offset=0", "SI"),  #SI
     (f"{BASE_URL}/perpus/main/tipeItem/4?max=10&offset=0", "SI"),   #SI
-    (f"{BASE_URL}/perpus/main/tipeItem/17?max=10&offset=0", "SI"),  #SI
+    (f"{BASE_URL}/perpus/main/tipeItem/22?max=10&offset=0", "MI"),  #MI
 ]
 
 DUPLICATE_THRESHOLD = 2
@@ -216,7 +218,14 @@ def save_to_xlsx(data, filename):
         print(f"\nError menyimpan ke XLSX: {e}")
 
 def main():
-    script_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    if getattr(sys, 'frozen', False):
+        script_dir = os.path.dirname(sys.executable)
+    else:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        
+    # script_dir = get_base_dir()
+    # script_dir = os.path.dirname(os.path.abspath(__file__))
     filename = os.path.join(script_dir, 'databasejudul.xlsx')
     
     seen_urls = load_existing_urls(filename)

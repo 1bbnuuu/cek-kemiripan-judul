@@ -145,7 +145,14 @@ function cariJudul() {
     const inputJudul = document.getElementById("judulInput").value;
     const tokenInput = casefolding(inputJudul);
 
-    if (tokenInput.length === 0) return;
+    // if (tokenInput.length === 0) return;
+    if (tokenInput.length < 5){
+        alert("Masukan judul lebih dari kata")
+        return;
+    }
+    if (tokenInput.length > 20){
+        alert("Masukan judul kurang dari 15 kata")
+    }
 
     const semuaTokens = semuaData.map(row => casefolding(row.Judul));
 
@@ -160,7 +167,7 @@ function cariJudul() {
     })
     .filter(row => row.similarity > 0)
     .sort((a, b) => b.similarity - a.similarity)
-
+    .slice(0,10)
     tampilkanHasil(hasil, tokenInput);
 }
 
