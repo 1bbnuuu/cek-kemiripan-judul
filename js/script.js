@@ -147,7 +147,7 @@ function cariJudul() {
 
     // if (tokenInput.length === 0) return;
     if (tokenInput.length < 5){
-        alert("Masukan judul lebih dari kata")
+        alert("Masukan judul lebih dari 5 kata")
         return;
     }
     if (tokenInput.length > 20){

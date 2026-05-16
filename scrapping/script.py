@@ -10,14 +10,14 @@ import sys
 BASE_URL = "https://perpus.stmikplk.ac.id"
 
 URLS_TO_SCRAPE = [
+    (f"{BASE_URL}/perpus/main/tipeItem/22?max=10&offset=0", "MI"),  #MI
     (f"{BASE_URL}/perpus/main/tipeItem/24?max=10&offset=0", "TI"),  #TI
     (f"{BASE_URL}/perpus/main/tipeItem/17?max=10&offset=0", "TI"),  #TI
     (f"{BASE_URL}/perpus/main/tipeItem/21?max=10&offset=0", "SI"),  #SI
     (f"{BASE_URL}/perpus/main/tipeItem/4?max=10&offset=0", "SI"),   #SI
-    (f"{BASE_URL}/perpus/main/tipeItem/22?max=10&offset=0", "MI"),  #MI
 ]
 
-DUPLICATE_THRESHOLD = 2
+DUPLICATE_THRESHOLD = 3
 
 def scrape_page(url, jurusan):
     print(f"\nScraping: {url}")
