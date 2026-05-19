@@ -68,10 +68,19 @@ function casefolding(judul) {
 
     const filtered = tokens.filter(word => !stopwords.includes(word));
 
-    return filtered.map(word => {
-        if (kamusKoreksi[word]) return kamusKoreksi[word];
-        return stemmer.stem(word);
+    // Ubah bagian ini:
+    const result = [];
+    filtered.forEach(word => {
+        let corrected = kamusKoreksi[word] 
+            ? kamusKoreksi[word] 
+            : stemmer.stem(word);
+        
+        // Jika hasil koreksi mengandung spasi, pecah jadi beberapa token
+        const subTokens = corrected.trim().split(/\s+/);
+        subTokens.forEach(t => result.push(t));
     });
+
+    return result;
 }
 
 
