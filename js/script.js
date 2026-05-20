@@ -1,3 +1,4 @@
+//bismillah last pushhh
 const BASE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNBbQLWjVBQIzXXxWt-VyxwgiyYiYCqv3WOx06jPeOQ8xrIWeAbHhfeADNV4SRDg/pub?output=csv";
 const getSheetURL = (gid) => `${BASE_URL}&gid=${gid}`;
 
@@ -9,7 +10,6 @@ let stopwords = [];
 let semuaData = [];
 let kamusKoreksi = {};
 const stemmer = new sastrawijs.Stemmer();
-
 
 async function loadStopwords() {
     const res = await fetch(stopwordURL);
@@ -42,7 +42,6 @@ async function init() {
 }
 init();
 
-
 function tampilkanStatistik() {
     let tahunArray = [];
     let prodiSet = new Set();
@@ -58,7 +57,6 @@ function tampilkanStatistik() {
     document.getElementById("rentangTahun").textContent = `${Math.min(...tahunArray)} - ${Math.max(...tahunArray)}`;
 }
 
-
 function casefolding(judul) {
     const tokens = judul
         .replace(/[^a-z0-9\s]/gi, "")
@@ -68,14 +66,12 @@ function casefolding(judul) {
 
     const filtered = tokens.filter(word => !stopwords.includes(word));
 
-    // Ubah bagian ini:
     const result = [];
     filtered.forEach(word => {
         let corrected = kamusKoreksi[word] 
             ? kamusKoreksi[word] 
             : stemmer.stem(word);
         
-        // Jika hasil koreksi mengandung spasi, pecah jadi beberapa token
         const subTokens = corrected.trim().split(/\s+/);
         subTokens.forEach(t => result.push(t));
     });
@@ -87,19 +83,17 @@ function casefolding(judul) {
 function hitungTF(tokens) {
     const tf = {};
     tokens.forEach(token => {
-        tf[token] = (tf[token] || 0)+1;
-    });
-    Object.keys(tf).forEach(k => {
-        tf[k] = tf[k] / tokens.length;
+        tf[token] = (tf[token] || 0) + 1;
     });
     return tf;
 }
 
-function hitungIDF(semuaTokens) {
-    const N = semuaTokens.length;
+function hitungIDF(semuaTokens, tokenInput) {
+    const semuaKoleksi = [tokenInput, ...semuaTokens];
+    const N = semuaKoleksi.length;
     const df = {};
 
-    semuaTokens.forEach(tokens => {
+    semuaKoleksi.forEach(tokens => {
         const unik = new Set(tokens);
         unik.forEach(token => {
             df[token] = (df[token] || 0) + 1;
@@ -108,7 +102,8 @@ function hitungIDF(semuaTokens) {
 
     const idf = {};
     Object.keys(df).forEach(token => {
-        idf[token] = Math.log((N + 1) / (df[token] + 1)) + 1;
+        const docFreq = df[token] || 1;
+        idf[token] = Math.log10(N / docFreq) + 1;
     });
 
     return idf;
@@ -118,11 +113,11 @@ function buatVektor(tokens, idf) {
     const tf = hitungTF(tokens);
     const vektor = {};
     Object.keys(tf).forEach(token => {
-        vektor[token] = tf[token] * (idf[token] || Math.log((semuaData.length + 1) / (1 + 1)) + 1);
+        const nilaiIDF = idf[token] !== undefined ? idf[token] : 1;
+        vektor[token] = tf[token] * nilaiIDF;
     });
     return vektor;
 }
-
 
 function cosineSimilarity(vektorA, vektorB) {
     const semuaKey = new Set([...Object.keys(vektorA), ...Object.keys(vektorB)]);
@@ -154,7 +149,6 @@ function cariJudul() {
     const inputJudul = document.getElementById("judulInput").value;
     const tokenInput = casefolding(inputJudul);
 
-    // if (tokenInput.length === 0) return;
     if (tokenInput.length < 5){
         alert("Masukan judul lebih dari 5 kata")
         return;
@@ -165,8 +159,8 @@ function cariJudul() {
 
     const semuaTokens = semuaData.map(row => casefolding(row.Judul));
 
-    const idf = hitungIDF(semuaTokens);
-
+    // const idf = hitungIDF(semuaTokens);
+    const idf = hitungIDF(semuaTokens, tokenInput);
     const vektorInput = buatVektor(tokenInput, idf);
 
     const hasil = semuaData.map((row, i) => {
@@ -175,8 +169,7 @@ function cariJudul() {
         return { ...row, similarity, tokens: semuaTokens[i] };
     })
     .filter(row => row.similarity > 0)
-    .sort((a, b) => b.similarity - a.similarity)
-    .slice(0,10)
+    .sort((a, b) => b.similarity - a.similarity);
     tampilkanHasil(hasil, tokenInput);
 }
 
@@ -201,7 +194,6 @@ function tampilkanHasil(hasil, tokenInput) {
 
     let html = `
         <h3 class="font-bold text-lg mb-2">Hasil Kemiripan</h3>
-        <!--<p class="text-sm text-slate-500 mb-1">Token input: <span class="text-blue-600">${tokenInput.join(", ")}</span></p>-->
         <p class="text-sm text-slate-500 mb-4">Kemiripan tertinggi: <span class="font-bold text-emerald-600">${persenTertinggi}%</span></p>
     `;
 
@@ -228,7 +220,6 @@ function tampilkanHasil(hasil, tokenInput) {
             <a href="detail.html?${params.toString()}" class="block border-b py-3 flex items-start justify-between gap-4 hover:bg-slate-50 rounded-lg px-2 transition-colors cursor-pointer">
                 <div class="flex-1">
                     <div class="font-semibold text-slate-800">${row.Judul}</div>
-                    <!--<div class="text-xs text-slate-400 mt-1">${row.Jurusan} · ${row.Tahun}</div>-->
                     <div class="text-xs text-slate-400 mt-1">Token: ${row.tokens.join(", ")}</div>
                 </div>
                 <div class="flex-shrink-0 flex items-center gap-2">
