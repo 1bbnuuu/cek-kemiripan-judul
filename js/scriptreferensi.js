@@ -1,6 +1,6 @@
 const BASE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNBbQLWjVBQIzXXxWt-VyxwgiyYiYCqv3WOx06jPeOQ8xrIWeAbHhfeADNV4SRDg/pub?output=csv";
 const getSheetURL = (gid) => `${BASE_URL}&gid=${gid}`;
-const dataURL = getSheetURL(1749465922);
+const dataURL = getSheetURL(1206313524);
 
 let semuaData = [];
 

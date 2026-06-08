@@ -1,10 +1,10 @@
 //bismillah last pushhh
-const BASE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNBbQLWjVBQIzXXxWt-VyxwgiyYiYCqv3WOx06jPeOQ8xrIWeAbHhfeADNV4SRDg/pub?output=csv";
+const BASE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6ESqpML9GQZ_5DOt5eLDZGpo5IcZEqNhpcNWX-7nkT7ULHso_Z02VwEXoB7zo8w/pub?output=csv";
 const getSheetURL = (gid) => `${BASE_URL}&gid=${gid}`;
 
-const dataURL = getSheetURL(1749465922);
-const stopwordURL = getSheetURL(1400137647);
-const kamusURL = getSheetURL(1802052867);
+const dataURL = getSheetURL(1206313524);
+const stopwordURL = getSheetURL(872891823);
+const kamusURL = getSheetURL(1722656880);
 
 let stopwords = [];
 let semuaData = [];
