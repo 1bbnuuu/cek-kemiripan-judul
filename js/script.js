@@ -195,6 +195,7 @@ function tampilkanHasil(hasil, tokenInput) {
     let html = `
         <h3 class="font-bold text-lg mb-2">Hasil Kemiripan</h3>
         <p class="text-sm text-slate-500 mb-4">Kemiripan tertinggi: <span class="font-bold text-emerald-600">${persenTertinggi}%</span></p>
+        <p class="text-sm text-slate-500 mb-4">Token judul input: <span class="font-medium text-slate-700">${tokenInput.join(", ")}</span></p>
     `;
 
     hasil.forEach((row, index) => {
