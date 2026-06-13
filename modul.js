@@ -74,12 +74,11 @@ if (magnitudeA === 0 || magnitudeB === 0) return 0;
 return dotProduct / (magnitudeA * magnitudeB);
 }
 
-const judulInput = "Analisi Perancangan Sistem Informasi Inventaris Barang STMIK Palangkaraya ";
+const judulInput = 
+"aplikasi jadwal laboratorium stmik palangkaraya guna metode algoritma genetika";
 
 const dataDatabase = [
-// "",
-// "Sistem Pakar Diagnosa Hama sakit Tanam Sukun Metode Certainty Factor",
-  "Analisis Perancangan Sistem Informasi Inventaris Barang Berbasis Website Kantor Perpustakaan Kearsipan Daerah PalangkaRaya"
+    "terap metode algoritma genetika jadwal tugas akhir program studi teknik informatika stmik palangkaraya"
 ];
 
 const tokensInput = preprocess(judulInput);
