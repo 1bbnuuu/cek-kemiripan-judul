@@ -1,6 +1,6 @@
-const BASE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNBbQLWjVBQIzXXxWt-VyxwgiyYiYCqv3WOx06jPeOQ8xrIWeAbHhfeADNV4SRDg/pub?output=csv";
+const BASE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6ESqpML9GQZ_5DOt5eLDZGpo5IcZEqNhpcNWX-7nkT7ULHso_Z02VwEXoB7zo8w/pub?output=csv";
 const getSheetURL = (gid) => `${BASE_URL}&gid=${gid}`;
-const dataURL = getSheetURL(1206313524);
+const dataURL = getSheetURL(1556394868);
 
 let semuaData = [];
 
@@ -32,12 +32,15 @@ function cariReferensi() {
   const tahun   = document.getElementById("filterTahun").value.trim();
   const jurusan = document.getElementById("filterJurusan").value.trim();
   const nama    = document.getElementById("filterNama").value.trim().toLowerCase();
+  const keyword = document.getElementById("filterKeyword").value.trim().toLowerCase();
 
   let hasil = semuaData.filter(row => {
     const cocokTahun   = !tahun || row.Tahun?.trim() === tahun;
     const cocokJurusan = !jurusan || row.Jurusan?.trim() === jurusan;
     const cocokNama    = !nama || row.Penulis?.toLowerCase().includes(nama);
-    return cocokTahun && cocokJurusan && cocokNama;
+    const cocokKeyword = !keyword || row.Judul?.toLowerCase().includes(keyword);
+
+    return cocokTahun && cocokJurusan && cocokNama && cocokKeyword;
   });
 
   hasil = hasil.slice(0, 20);
