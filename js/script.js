@@ -202,7 +202,7 @@ function tampilkanHasil(hasil, tokenInput) {
         const persen = (row.similarity * 100).toFixed(2);
 
         let badgeClass = "bg-emerald-100 text-emerald-700";
-        if (persen >= 71) badgeClass = "bg-red-100 text-red-700";
+        if (persen >= 61) badgeClass = "bg-red-100 text-red-700";
         else if (persen >= 31) badgeClass = "bg-yellow-100 text-yellow-700";
 
         const params = new URLSearchParams({
