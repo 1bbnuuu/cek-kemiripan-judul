@@ -2,9 +2,9 @@
 const BASE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS6ESqpML9GQZ_5DOt5eLDZGpo5IcZEqNhpcNWX-7nkT7ULHso_Z02VwEXoB7zo8w/pub?output=csv";
 const getSheetURL = (gid) => `${BASE_URL}&gid=${gid}`;
 
-const dataURL = getSheetURL(1556394868);
-const stopwordURL = getSheetURL(847499621);
-const kamusURL = getSheetURL(1624706464);
+const dataURL = getSheetURL(1344832802);
+const stopwordURL = getSheetURL(317865247);
+const kamusURL = getSheetURL(1177432558);
 
 let stopwords = [];
 let semuaData = [];
